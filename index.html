@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lot.os</title>
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #000000;
+            color: #0004ff;
+            padding: 20px;
+        }
+        #output {
+            background-color: #000000;
+            border: 1px solid #ff0000;
+            padding: 10px;
+            margin-bottom: 10px;
+            height: 200px;
+            overflow-y: auto;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+        }
+        button {
+            padding: 10px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Welcome to Lot.os</h1>
+    <div id="output"></div>
+    <input type="text" id="userInput" placeholder="Type your command here..." />
+    <button onclick="processInput()">Submit</button>
+
+    <script>
+        let userName = '';
+        const menuIcons = ["calculator", "how-to-use", "Grn", "cl"];
+        const outputDiv = document.getElementById('output');
+
+        function appendOutput(text) {
+            outputDiv.innerHTML += text + '<br>';
+            outputDiv.scrollTop = outputDiv.scrollHeight; // Auto scroll to the bottom
+        }
+
+        function start() {
+            appendOutput("Hello, what is your name?/Привет, как тебя зовут?");
+            document.getElementById('userInput').focus();
+        }
+
+        function processInput() {
+            const input = document.getElementById('userInput').value.trim();
+            document.getElementById('userInput').value = ''; // Clear input field
+
+            if (!userName) {
+                userName = input;
+                appendOutput("Hello " + userName + " nice to meet you. This is a lot.os/");
+                appendOutput("Привет " + userName + " приятно познакомиться. Это Лот.ос");
+                appendOutput("This is an operating system that allows you to work in a nuclear environment");
+                appendOutput("Это операционная система, позволяющая вам работать в ядерной среде");
+                showMenu();
+            } else {
+                handleMenuChoice(input);
+            }
+        }
+        
+        function showMenu() {
+            appendOutput("You have got (The order starts from 0): calculator(0), how-to-use(1), Game 'Random number' (Grn(2)), cl(3)");
+            appendOutput("Есть программы (Порядок начинается с 0): calculator (Калькулятор(0)), how-to-use (Как-использовать(1)), Grn (Игра 'Случайное число'(2)), cl(3)");
+            appendOutput("What do you want to open?/Что ты хочешь открыть?:");
+        }
+
+        function handleMenuChoice(choice) {
+            if (choice === menuIcons[0]) {
+                calculator();
+            } else if (choice === menuIcons[1]) {
+                options();
+            } else if (choice === menuIcons[2]) {
+                grn();
+            } else if (choice === menuIcons[3]) {
+                outputDiv.innerHTML = 'You have got (The order starts from 0): calculator, how-to-use, Game "Random number" (Grn), cl \nЕсть программы (Порядок начинается с 0): calculator (Калькулятор), how-to-use (Как-использовать), Grn (Игра Случайное число), cl \n What do you want to open?/Что ты хочешь открыть?:'; // Clear the output
+            } else {
+                appendOutput("Invalid choice. Please try again./ Неверная команда, попробуйте ещё раз");
+            }
+        }
+
+        function options() {
+            appendOutput("To go to the program, write the name as in the proposed version or write a number, which number is indicated in parentheses");
+            appendOutput("Также напишите 'cl' в меню, чтобы очистить строки");
+        }
+
+        function calculator() {
+            const firstNum = parseInt(prompt("Enter a first number/Введите 1 число:"));
+            const secondNum = parseInt(prompt("Enter a second number/Введите 2 число:"));
+            const znak = prompt("Enter a Mathematical sign (+,-,*,/)/Введите математический знак (+,-,*,/):");
+
+            let result;
+            if (znak === "+") {
+                result = firstNum + secondNum;
+                appendOutput(firstNum + " + " + secondNum + " = " + result);
+            } else if (znak === "-") {
+                result = firstNum - secondNum;
+                appendOutput(firstNum + " - " + secondNum + " = " + result);
+            } else if (znak === "*") {
+                result = firstNum * secondNum;
+                appendOutput(firstNum + " * " + secondNum + " = " + result);
+            } else if (znak === "/" && secondNum !== 0) {
+                result = firstNum / secondNum;
+                appendOutput(firstNum + " / " + secondNum + " = " + result);
+            } else {
+                appendOutput("It cannot be divided by 0!/На ноль делить нельзя!");
+            }
+        }
+
+        function grn() {
+            const randomNum = Math.floor(Math.random() * 10);
+            let attempts = 0;
+            appendOutput("I guessed a number from 0 to 9. Try to guess it in three attempts./Я загадал число от 0 до 9. Попробуйте отгадать его за три попытки.");
+
+            while (attempts < 3) {
+                const guess = parseInt(prompt("Enter your guess/Введите ваше число:"));
+                if (guess === randomNum) {
+                    appendOutput("Yes! I made a number/ Да! Я загадал число: " + guess + "!");
+                    return;
+                } else {
+                    attempts++;
+                    alert("No, it's not a number/Нет, это не число " + guess);
+                }
+            }
+            appendOutput("Alas, you did not guess the hidden number. It was a number/Увы, вы не отгадали загаданное число. Это было число: " + randomNum + "!");
+        }
+
+        start();
+    </script>
+</body>
+</html>
